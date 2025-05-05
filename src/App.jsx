@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const TodoInput = ({ onSubmit }) => {
+const Input = ({ onSubmit, placeholder }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleChange = (event) => {
@@ -19,7 +19,7 @@ const TodoInput = ({ onSubmit }) => {
     <div>
       <input
         type="text"
-        placeholder="Add a new todo"
+        placeholder={placeholder}
         value={inputValue}
         onChange={handleChange}
         onKeyDown={handleSubmit}
@@ -44,7 +44,7 @@ const TodoList = ({ tasks, toggleTask }) => {
   return (
     <ul>
       {tasks.map((task) => (
-        <TaskItem task={task} toggleTask={toggleTask} />
+        <TaskItem task={task} toggleTask={toggleTask} key={task.id} />
       ))}
     </ul>
   );
@@ -58,11 +58,25 @@ const TodoTitle = ({ title }) => {
   );
 };
 
-const Todo = ({ tasks, title, handleAddTask, toggleTask, todoId }) => {
+const Todo = ({
+  tasks,
+  title,
+  handleAddTask,
+  toggleTask,
+  deleteTodo,
+  todoId,
+}) => {
   return (
     <div>
       <TodoTitle title={title} />
-      <TodoInput onSubmit={(task) => handleAddTask(task, todoId)} />
+
+      <div>
+        <Input
+          placeholder={"Add new task"}
+          onSubmit={(task) => handleAddTask(task, todoId)}
+        />
+        <button onClick={() => deleteTodo(todoId)}>Delete</button>
+      </div>
       <TodoList tasks={tasks} toggleTask={toggleTask} todoId={todoId} />
     </div>
   );
@@ -77,13 +91,18 @@ const Todos = () => {
     },
   ]);
 
+  const [nextTaskId, setNextTaskId] = useState(1);
+  const [nextTodoId, setNextTodoId] = useState(1);
+
   const handleAddTask = (task, todoId) => {
     console.log("New Task:", task);
     const newTask = {
-      id: Date.now(),
+      id: nextTaskId,
       task,
       done: false,
     };
+
+    setNextTaskId((prevId) => prevId + 1);
 
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -103,8 +122,25 @@ const Todos = () => {
     );
   };
 
+  const handleAddTodo = (title) => {
+    const newTodo = {
+      id: nextTodoId,
+      tasks: [],
+      title,
+    };
+
+    setNextTodoId((prevId) => prevId + 1);
+
+    setTodos((prevTodos) => [...prevTodos, newTodo]);
+  };
+
+  const deleteTodo = (todoId) => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== todoId));
+  };
+
   return (
     <div>
+      <Input placeholder={"Add new Todo"} onSubmit={handleAddTodo}></Input>
       {todos.map((todo) => (
         <Todo
           key={todo.id}
@@ -113,6 +149,7 @@ const Todos = () => {
           tasks={todo.tasks}
           handleAddTask={handleAddTask}
           toggleTask={toggleTask}
+          deleteTodo={deleteTodo}
         />
       ))}
     </div>
