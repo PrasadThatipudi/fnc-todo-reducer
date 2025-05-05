@@ -1,9 +1,12 @@
-export const TaskItem = ({ task, toggleTask }) => {
+export const TaskItem = ({ task, dispatch, todoId }) => {
   const textDecoration = task.done ? "line-through" : "none";
 
   return (
     <li>
-      <p onClick={() => toggleTask(task.id)} style={{ textDecoration }}>
+      <p
+        onClick={() => dispatch({ type: "toggle-task", todoId, taskId: task.id })}
+        style={{ textDecoration }}
+      >
         {task.task}
       </p>
     </li>

@@ -16,7 +16,7 @@ export const Todo = ({ tasks, title, todoId, dispatch }) => {
           Delete
         </button>
       </div>
-      <TodoList tasks={tasks} toggleTask={() => {}} todoId={todoId} />
+      <TodoList tasks={tasks} dispatch={dispatch} todoId={todoId} />
     </div>
   );
 };

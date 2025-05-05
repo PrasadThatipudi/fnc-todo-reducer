@@ -1,10 +1,15 @@
 import { TaskItem } from "./TaskItem";
 
-export const TodoList = ({ tasks, toggleTask }) => {
+export const TodoList = ({ tasks, dispatch, todoId }) => {
   return (
     <ul>
       {tasks.map((task) => (
-        <TaskItem task={task} toggleTask={toggleTask} key={task.id} />
+        <TaskItem
+          task={task}
+          dispatch={dispatch}
+          key={task.id}
+          todoId={todoId}
+        />
       ))}
     </ul>
   );

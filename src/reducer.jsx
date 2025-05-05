@@ -45,11 +45,28 @@ const deleteTodo = (state, action) => {
   };
 };
 
+const toggleTask = (state, action) => {
+  const newTodos = state.todos.map((todo) => {
+    if (todo.id === action.todoId) {
+      const newTasks = todo.tasks.map((task) => {
+        task.done = task.id === action.taskId ? !task.done : task.done;
+
+        return task;
+      });
+      return { ...todo, tasks: newTasks };
+    }
+    return todo;
+  });
+
+  return { ...state, todos: newTodos };
+};
+
 export const reducer = (state, action) => {
   const actions = {
     "add-todo": addNewTodo,
     "add-task": addNewTask,
     "delete-todo": deleteTodo,
+    "toggle-task": toggleTask,
   };
 
   return actions[action.type] ? actions[action.type](state, action) : state;
