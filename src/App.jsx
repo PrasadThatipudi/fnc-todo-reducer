@@ -50,36 +50,73 @@ const TodoList = ({ tasks, toggleTask }) => {
   );
 };
 
-const Todo = () => {
-  const [tasks, setTasks] = useState([
-    { id: 1, task: "Learn React", done: false },
+const TodoTitle = ({ title }) => {
+  return (
+    <div>
+      <h1>{title}</h1>
+    </div>
+  );
+};
+
+const Todo = ({ tasks, title, handleAddTask, toggleTask, todoId }) => {
+  return (
+    <div>
+      <TodoTitle title={title} />
+      <TodoInput onSubmit={(task) => handleAddTask(task, todoId)} />
+      <TodoList tasks={tasks} toggleTask={toggleTask} todoId={todoId} />
+    </div>
+  );
+};
+
+const Todos = () => {
+  const [todos, setTodos] = useState([
+    {
+      id: 0,
+      tasks: [{ id: 0, task: "Learn React", done: false }],
+      title: "Todo List",
+    },
   ]);
 
-  const handleAddTask = (task) => {
+  const handleAddTask = (task, todoId) => {
+    console.log("New Task:", task);
     const newTask = {
       id: Date.now(),
       task,
       done: false,
     };
 
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === todoId ? { ...todo, tasks: [...todo.tasks, newTask] } : todo
+      )
+    );
   };
 
   const toggleTask = (id) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === id ? { ...task, done: !task.done } : task
-      )
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => ({
+        ...todo,
+        tasks: todo.tasks.map((task) =>
+          task.id === id ? { ...task, done: !task.done } : task
+        ),
+      }))
     );
   };
 
   return (
     <div>
-      <h1>Todo List</h1>
-      <TodoInput onSubmit={handleAddTask} />
-      <TodoList tasks={tasks} toggleTask={toggleTask} />
+      {todos.map((todo) => (
+        <Todo
+          key={todo.id}
+          todoId={todo.id}
+          title={todo.title}
+          tasks={todo.tasks}
+          handleAddTask={handleAddTask}
+          toggleTask={toggleTask}
+        />
+      ))}
     </div>
   );
 };
 
-export default Todo;
+export default Todos;
