@@ -36,12 +36,23 @@ const addNewTask = (state, action) => {
   };
 };
 
+const deleteTodo = (state, action) => {
+  const newTodos = state.todos.filter((todo) => todo.id !== action.todoId);
+
+  return {
+    ...state,
+    todos: newTodos,
+  };
+};
+
 export const reducer = (state, action) => {
   switch (action.type) {
     case "add-todo":
       return addNewTodo(state, action);
     case "add-task":
       return addNewTask(state, action);
+    case "delete-todo":
+      return deleteTodo(state, action);
     default:
       return state;
   }
