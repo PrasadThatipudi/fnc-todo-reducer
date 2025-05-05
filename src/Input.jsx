@@ -9,7 +9,6 @@ export const Input = ({ onSubmit, placeholder }) => {
 
   const handleSubmit = (event) => {
     if (event.key === "Enter" && inputValue.trim()) {
-      console.log("New Todo:", inputValue);
       onSubmit(inputValue);
       setInputValue("");
     }
@@ -23,6 +22,7 @@ export const Input = ({ onSubmit, placeholder }) => {
         value={inputValue}
         onChange={handleChange}
         onKeyDown={handleSubmit}
+        autoFocus={true}
       />
     </div>
   );

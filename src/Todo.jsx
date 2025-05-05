@@ -2,14 +2,7 @@ import { Input } from "./Input";
 import { TodoList } from "./TodoList";
 import { TodoTitle } from "./TodoTitle";
 
-export const Todo = ({
-  tasks,
-  title,
-  handleAddTask,
-  toggleTask,
-  deleteTodo,
-  todoId,
-}) => {
+export const Todo = ({ tasks, title, todoId, dispatch }) => {
   return (
     <div>
       <TodoTitle title={title} />
@@ -17,11 +10,13 @@ export const Todo = ({
       <div>
         <Input
           placeholder={"Add new task"}
-          onSubmit={(task) => handleAddTask(task, todoId)}
+          onSubmit={(task) => dispatch({ type: "add-task", task, todoId })}
         />
-        <button onClick={() => deleteTodo(todoId)}>Delete</button>
+        <button onClick={() => dispatch({ type: "delete-todo", todoId })}>
+          Delete
+        </button>
       </div>
-      <TodoList tasks={tasks} toggleTask={toggleTask} todoId={todoId} />
+      <TodoList tasks={tasks} toggleTask={() => {}} todoId={todoId} />
     </div>
   );
 };
