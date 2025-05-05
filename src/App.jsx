@@ -28,11 +28,23 @@ const TodoInput = ({ onSubmit }) => {
   );
 };
 
-const TodoList = ({ tasks }) => {
+const TaskItem = ({ task, toggleTask }) => {
+  const textDecoration = task.done ? "line-through" : "none";
+
+  return (
+    <li>
+      <p onClick={() => toggleTask(task.id)} style={{ textDecoration }}>
+        {task.task}
+      </p>
+    </li>
+  );
+};
+
+const TodoList = ({ tasks, toggleTask }) => {
   return (
     <ul>
       {tasks.map((task) => (
-        <li key={task.id}>{task.task}</li>
+        <TaskItem task={task} toggleTask={toggleTask} />
       ))}
     </ul>
   );
@@ -53,11 +65,19 @@ const Todo = () => {
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
+  const toggleTask = (id) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    );
+  };
+
   return (
     <div>
       <h1>Todo List</h1>
       <TodoInput onSubmit={handleAddTask} />
-      <TodoList tasks={tasks} />
+      <TodoList tasks={tasks} toggleTask={toggleTask} />
     </div>
   );
 };
