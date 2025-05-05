@@ -2,7 +2,7 @@ import { TaskItem } from "./TaskItem";
 
 export const TodoList = ({ tasks, dispatch, todoId }) => {
   return (
-    <ul>
+    <div className="todo-list">
       {tasks.map((task) => (
         <TaskItem
           task={task}
@@ -11,6 +11,6 @@ export const TodoList = ({ tasks, dispatch, todoId }) => {
           todoId={todoId}
         />
       ))}
-    </ul>
+    </div>
   );
 };

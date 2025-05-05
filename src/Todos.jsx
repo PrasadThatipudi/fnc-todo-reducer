@@ -11,28 +11,30 @@ const fetchTodos = async () => {
 };
 
 export const Todos = () => {
-  const [todos, setTodos] = useState([]);
+  // const [todos, setTodos] = useState([]);
 
-  useEffect(() => {
-    fetchTodos().then((todos) => {
-      console.log(todos);
-      setTodos(todos);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchTodos().then((todos) => {
+  //     console.log(todos);
+  //     setTodos(todos);
+  //   });
+  // }, []);
 
   const [state, dispatch] = useReducer(reducer, {
-    todos,
+    todos: [],
     nextTodoId: 2,
     nextTaskId: 5,
   });
 
   return (
-    <div>
-      <Input
-        placeholder={"Add new Todo"}
-        onSubmit={(title) => dispatch({ type: "add-todo", title })}
-      ></Input>
-      {todos.map((todo) => {
+    <div className="app-wrapper">
+      <div>
+        <Input
+          placeholder={"Add new Todo"}
+          onSubmit={(title) => dispatch({ type: "add-todo", title })}
+        ></Input>
+      </div>
+      {state.todos.map((todo) => {
         return (
           <Todo
             key={todo.id}

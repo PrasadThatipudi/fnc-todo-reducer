@@ -2,7 +2,7 @@ export const TaskItem = ({ task, dispatch, todoId }) => {
   const className = task.done ? "task-done" : "none";
 
   return (
-    <li>
+    <div className="task-item">
       <p
         onClick={() =>
           dispatch({ type: "toggle-task", todoId, taskId: task.id })
@@ -11,6 +11,6 @@ export const TaskItem = ({ task, dispatch, todoId }) => {
       >
         {task.task}
       </p>
-    </li>
+    </div>
   );
 };

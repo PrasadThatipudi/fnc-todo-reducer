@@ -4,14 +4,16 @@ import { TodoTitle } from "./TodoTitle";
 
 export const Todo = ({ tasks, title, todoId, dispatch }) => {
   return (
-    <div>
+    <div className="todo">
       <TodoTitle title={title} />
 
-      <div>
-        <Input
-          placeholder={"Add new task"}
-          onSubmit={(task) => dispatch({ type: "add-task", task, todoId })}
-        />
+      <div className="task-controls">
+        <div className="input-wrapper">
+          <Input
+            placeholder={"Add new task"}
+            onSubmit={(task) => dispatch({ type: "add-task", task, todoId })}
+          />
+        </div>
         <button onClick={() => dispatch({ type: "delete-todo", todoId })}>
           Delete
         </button>
