@@ -46,14 +46,11 @@ const deleteTodo = (state, action) => {
 };
 
 export const reducer = (state, action) => {
-  switch (action.type) {
-    case "add-todo":
-      return addNewTodo(state, action);
-    case "add-task":
-      return addNewTask(state, action);
-    case "delete-todo":
-      return deleteTodo(state, action);
-    default:
-      return state;
-  }
+  const actions = {
+    "add-todo": addNewTodo,
+    "add-task": addNewTask,
+    "delete-todo": deleteTodo,
+  };
+
+  return actions[action.type] ? actions[action.type](state, action) : state;
 };
